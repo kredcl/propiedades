@@ -7,7 +7,8 @@
   <meta name="description" content="LOSA diseña, construye y vende casas contemporáneas de hormigón y acero en Santiago. Residencias en Los Dominicos y Pirque, y departamentos en Providencia." />
   <meta name="theme-color" content="#21262B" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="preload" as="image" href="/frames/d/000.webp" type="image/webp" />
+  <link rel="preload" as="image" href="/img/h-r01-2600.webp" type="image/webp" media="(min-width: 900px)" />
+  <link rel="preload" as="image" href="/img/h-r01-1400.webp" type="image/webp" media="(max-width: 899px)" />
   <script>
     document.documentElement.classList.add('js');
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('rm');
@@ -44,8 +45,15 @@
     <!-- HÉROE: video que avanza con el scroll -->
     <section class="hero pin" id="inicio" data-scene="hero" data-tone="dark" style="--len: 430vh">
       <div class="stage">
-        <canvas class="hero-canvas" data-hero-canvas aria-hidden="true"></canvas>
-        <img class="hero-poster" src="/frames/d/000.webp" alt="" aria-hidden="true" data-hero-poster />
+        <div class="hero-shot" data-shot style="--o: 64% 70%">
+          <img src="/img/h-r01-2600.webp" srcset="/img/h-r01-1400.webp 1400w, /img/h-r01-2600.webp 2600w" sizes="100vw" alt="Residencia 01 al atardecer: volúmenes de madera oscura y vidrio bajo un eucalipto antiguo" fetchpriority="high" />
+        </div>
+        <div class="hero-shot" data-shot style="--o: 70% 74%">
+          <img src="/img/h-stair-2600.webp" srcset="/img/h-stair-1400.webp 1400w, /img/h-stair-2600.webp 2600w" sizes="100vw" alt="Escalera de acero y peldaños de madera frente a un ventanal que mira a la piscina" />
+        </div>
+        <div class="hero-shot" data-shot style="--o: 52% 66%">
+          <img src="/img/h-warm-2600.webp" srcset="/img/h-warm-1400.webp 1400w, /img/h-warm-2600.webp 2600w" sizes="100vw" alt="Living de techos altos con ventana corrida, sofá gris y mesa de madera" />
+        </div>
         <div class="hero-shade" aria-hidden="true"></div>
         <div class="hero-lines">
           <h1 class="hero-line is-on" data-hero-line>Casas que definen cómo vives.</h1>
@@ -58,7 +66,7 @@
     </section>
 
     <!-- NUBE DE FOTOS -->
-    <section class="cloud pin" id="forma" data-scene="cloud" data-tone="light" style="--len: 330vh" aria-labelledby="cloud-t">
+    <section class="cloud pin" id="forma" data-scene="cloud" data-tone="dark" style="--len: 330vh" aria-labelledby="cloud-t">
       <div class="stage">
         <h2 class="cloud-t serif" id="cloud-t" data-cloud-title>Una forma más<br />tranquila de vivir</h2>
         <figure class="cloud-pic c1"><img src="/img/living-800.webp" alt="Living de doble altura con escalera de madera y ventanales" loading="lazy" /></figure>
@@ -104,10 +112,13 @@
     </section>
 
     <!-- MARQUESINA Y FOTO QUE CRECE -->
-    <section class="grow pin" data-scene="grow" data-tone="light" style="--len: 260vh" aria-label="Residencia 01">
+    <section class="grow pin" data-scene="grow" data-tone="dark" style="--len: 260vh" aria-label="Residencia 01">
       <div class="stage">
-        <div class="marq" aria-hidden="true" data-marq>
-          <span>LOSA / CASAS&nbsp;&nbsp;LOSA / CASAS&nbsp;&nbsp;LOSA / CASAS&nbsp;&nbsp;LOSA / CASAS&nbsp;&nbsp;</span>
+        <div class="marq marq-a" aria-hidden="true" data-marq-a>
+          <span>Hormigón, acero, luz y silencio —&nbsp;Hormigón, acero, luz y silencio —&nbsp;Hormigón, acero, luz y silencio —&nbsp;</span>
+        </div>
+        <div class="marq marq-b" aria-hidden="true" data-marq-b>
+          <span>LOSA / CASAS · SANTIAGO · LOSA / CASAS · SANTIAGO · LOSA / CASAS · SANTIAGO ·&nbsp;</span>
         </div>
         <div class="grow-pic" data-grow-pic>
           <img src="/img/r01-1800.webp" alt="Residencia 01 al atardecer, con el living iluminado bajo el árbol del jardín" loading="lazy" />
@@ -128,7 +139,7 @@
           <li data-focus="walls"><span class="st-name">Muros</span><span class="st-sub">Hormigón armado de 20 cm, a la vista por dentro y por fuera</span></li>
           <li data-focus="slabs"><span class="st-name">Losas</span><span class="st-sub">Losas de 15 cm con piso de porcelanato gris</span></li>
           <li data-focus="roof"><span class="st-name">Techo</span><span class="st-sub">Cubierta invertida con 10 cm de aislación térmica</span></li>
-          <li data-focus="pillars"><span class="st-name">Pilares</span><span class="st-sub">Perfiles de acero de 150 mm en la galería</span></li>
+          <li data-focus="steel"><span class="st-name">Acero</span><span class="st-sub">Pilares HEB 150 y celosía de aluminio en la fachada</span></li>
           <li data-focus="stairs"><span class="st-name">Escalera</span><span class="st-sub">Peldaños de hormigón en voladizo</span></li>
           <li data-focus="windows"><span class="st-name">Ventanas y puertas</span><span class="st-sub">Termopanel con marco de aluminio negro</span></li>
         </ol>
@@ -136,7 +147,10 @@
           <div class="st-label"><span class="st-name" data-st-name>Vista completa</span><span class="st-sub" data-st-sub>Residencia 01: 286 m² en dos pisos</span></div>
           <span class="st-num" data-st-num>01</span>
           <div class="st-bar"><i data-st-bar></i></div>
-          <ul class="st-dots" data-st-dots><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+          <ol class="st-legend" data-st-legend>
+            <li>Vista completa</li><li>Muros</li><li>Losas</li><li>Techo</li><li>Acero</li><li>Escalera</li><li>Ventanas y puertas</li>
+          </ol>
+          <dl class="st-spec" data-st-spec></dl>
         </div>
       </div>
     </section>
@@ -195,7 +209,7 @@
     </section>
 
     <!-- RECORRIDO DEL DEPARTAMENTO PILOTO -->
-    <section class="tour pin" id="piloto" data-scene="tour" data-tone="light" style="--len: 520vh" aria-labelledby="tour-t">
+    <section class="tour pin" id="piloto" data-scene="tour" data-tone="dark" style="--len: 520vh" aria-labelledby="tour-t">
       <div class="stage">
         <h2 class="sr" id="tour-t">Recorre el departamento piloto</h2>
         <div class="tour-main">

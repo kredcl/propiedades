@@ -29,62 +29,22 @@ const pinP = (el) => {
 const lenis = RM ? null : new Lenis({ lerp: 0.1, wheelMultiplier: 0.95 });
 const scrollToY = (y, opts = {}) => (lenis ? lenis.scrollTo(y, { duration: 1.4, ...opts }) : scrollTo({ top: y, behavior: RM ? 'auto' : 'smooth' }));
 
-/* ---------- Héroe: cuadros del video ---------- */
-const N = 80;
-const canvas = $('[data-hero-canvas]');
-const ctx = canvas.getContext('2d');
-let set_ = '';
-let frames = [];
-let lastDrawn = -1;
-let wantFrame = 0;
-function loadFrames(onProgress) {
-  const which = vw / vh < 0.9 ? 'm' : 'd';
-  if (which === set_) return Promise.resolve();
-  set_ = which;
-  frames = new Array(N);
-  let done = 0;
-  const order = [];
-  for (let i = 0; i < N; i += 4) order.push(i);
-  for (let i = 0; i < N; i++) if (i % 4) order.push(i);
-  return new Promise((resolve) => {
-    order.forEach((i) => {
-      const img = new Image();
-      img.decoding = 'async';
-      img.onload = img.onerror = () => {
-        frames[i] = img.naturalWidth ? img : null;
-        done++;
-        onProgress && onProgress(done / N);
-        if (done === N) resolve();
-        if (i === wantFrame) lastDrawn = -1;
-      };
-      img.src = `frames/${which}/${String(i).padStart(3, '0')}.webp`;
-    });
-  });
-}
-function sizeCanvas() {
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  canvas.width = Math.round(vw * dpr);
-  canvas.height = Math.round(vh * dpr);
-  lastDrawn = -1;
-}
-function drawFrame(i) {
-  let img = frames[i];
-  if (!img) { for (let d = 1; d < N && !img; d++) img = frames[i - d] || frames[i + d]; }
-  if (!img) return;
-  const cw = canvas.width;
-  const ch = canvas.height;
-  const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-  const w = img.naturalWidth * s;
-  const h = img.naturalHeight * s;
-  ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
-}
+/* ---------- Héroe: cámara que avanza por tres tomas ---------- */
 const heroEl = $('[data-scene="hero"]');
 const heroLines = $$('[data-hero-line]');
+const shots = $$('[data-shot]', heroEl).map((el) => ({ el, img: $('img', el) }));
+const sine = (t) => 0.5 - Math.cos(Math.PI * t) / 2;
 function hero() {
   const { p, r } = pinP(heroEl);
   if (r.bottom < -50) return;
-  wantFrame = Math.round(p * (N - 1));
-  if (wantFrame !== lastDrawn) { drawFrame(wantFrame); lastDrawn = wantFrame; }
+  // 1: nos acercamos al living iluminado de la Residencia 01
+  set(shots[0].img, 'transform', `scale(${mix(1.02, 1.4, sine(seg(p, 0, 0.42))).toFixed(4)})`);
+  // 2: entramos: la escalera de acero frente a la piscina
+  set(shots[1].el, 'opacity', seg(p, 0.3, 0.42).toFixed(3));
+  set(shots[1].img, 'transform', `scale(${mix(1.0, 1.28, sine(seg(p, 0.3, 0.76))).toFixed(4)})`);
+  // 3: el living, donde la cámara se detiene
+  set(shots[2].el, 'opacity', seg(p, 0.64, 0.76).toFixed(3));
+  set(shots[2].img, 'transform', `scale(${mix(1.0, 1.14, sine(seg(p, 0.64, 1))).toFixed(4)})`);
   heroLines.forEach((el, i) => {
     const local = p * 3 - i;
     let o = 1;
@@ -182,90 +142,161 @@ function manifest() {
   words.forEach((w, i) => set(w, 'opacity', (0.16 + 0.84 * clamp01(q * n * 1.15 - i)).toFixed(3)));
 }
 
-/* ---------- Marquesina y foto que crece ---------- */
+/* ---------- Dos filas de texto que abrazan la foto que crece ---------- */
 const growEl = $('[data-scene="grow"]');
-const marq = $('[data-marq] span');
+const marqA = $('[data-marq-a]');
+const marqB = $('[data-marq-b]');
+const spanA = $('span', marqA);
+const spanB = $('span', marqB);
 const growPic = $('[data-grow-pic]');
 const growImg = $('img', growPic);
 const growCap = $('[data-grow-cap]');
 function grow() {
   const { p, r } = pinP(growEl);
   if (r.top > vh || r.bottom < 0) return;
-  set(marq, 'transform', `translateX(${(-8 - p * 38).toFixed(2)}%)`);
-  const t = inOut(seg(p, 0.1, 0.72));
-  const w0 = isPhone() ? vw * 0.56 : vw * 0.24;
-  const h0 = w0 * 0.68;
+  const t = inOut(seg(p, 0.18, 0.78));
+  const w0 = isPhone() ? vw * 0.72 : vw * 0.34;
+  const h0 = w0 * 0.62;
   const tb = mix((vh - h0) / 2, 0, t);
   const lr = mix((vw - w0) / 2, 0, t);
   set(growPic, 'clipPath', `inset(${px(tb)} ${px(lr)} ${px(tb)} ${px(lr)} round ${px(mix(14, 0, t))})`);
-  set(growImg, 'transform', `scale(${mix(1.35, 1, t).toFixed(4)})`);
-  set(growCap, 'opacity', seg(p, 0.76, 0.9).toFixed(3));
+  set(growImg, 'transform', `scale(${mix(1.3, 1, t).toFixed(4)})`);
+  const gap = isPhone() ? 14 : 26;
+  set(marqA, 'transform', `translateY(${px(tb - marqA.offsetHeight - gap)})`);
+  set(marqB, 'transform', `translateY(${px(vh - tb + gap)})`);
+  set(spanA, 'transform', `translateX(${(-6 - p * 28).toFixed(2)}%)`);
+  set(spanB, 'transform', `translateX(${(-36 + p * 28).toFixed(2)}%)`);
+  set(growCap, 'opacity', seg(p, 0.8, 0.92).toFixed(3));
 }
 
 /* ---------- Estructura: maqueta 3D por capas ---------- */
 const scene3d = $('[data-scene3d]');
+// grupo, material, x, y, z, ancho, fondo, alto, nivel de explosión
 const B = [
-  // grupo, x, y, z, ancho, fondo, alto, nivel de explosión
-  ['ground', -8, -8, -1.2, 72, 54, 1.2, 0],
-  ['slabs', 0, 0, 0, 56, 38, 1.2, 0],
-  ['walls', 0, 0, 1.2, 30, 1, 9.5, 1],
-  ['walls', 0, 1, 1.2, 1, 37, 9.5, 1],
-  ['walls', 0, 37, 1.2, 12, 1, 9.5, 1],
-  ['walls', 22, 37, 1.2, 8, 1, 9.5, 1],
-  ['walls', 29, 1, 1.2, 1, 22, 9.5, 1],
-  ['windows', 12, 37.3, 1.2, 10, 0.4, 9.5, 1],
-  ['windows', 30, 1.5, 1.2, 24, 0.4, 9.5, 1],
-  ['windows', 30, 29, 1.2, 24, 0.4, 9.5, 1],
-  ['pillars', 41, 35.4, 1.2, 1.3, 1.3, 9.5, 1],
-  ['pillars', 54, 35.4, 1.2, 1.3, 1.3, 9.5, 1],
-  ['pillars', 54, 14, 1.2, 1.3, 1.3, 9.5, 1],
-  ['pillars', 54, 0.6, 1.2, 1.3, 1.3, 9.5, 1],
-  ['slabs', 0, 0, 10.7, 56, 38, 1.2, 2],
-  ['walls', 2, 4, 11.9, 36, 1, 8.5, 3],
-  ['walls', 2, 5, 11.9, 1, 29, 8.5, 3],
-  ['walls', 37, 5, 11.9, 1, 29, 8.5, 3],
-  ['walls', 2, 33, 11.9, 12, 1, 8.5, 3],
-  ['walls', 30, 33, 11.9, 8, 1, 8.5, 3],
-  ['windows', 14, 33.3, 11.9, 16, 0.4, 8.5, 3],
-  ['roof', -1, 2, 20.4, 42, 34, 1.2, 4],
+  ['ground', 'grid', -16, -14, -0.6, 92, 68, 0.6, 0],
+  ['ground', 'lawn', -14, 32, 0, 42, 18, 0.15, 0],
+  ['ground', 'wood', 28, 31.5, 0, 30, 12, 0.35, 0],
+  ['ground', 'water', 31, 34, 0.36, 22, 6.5, 0.12, 0],
+  ['slabs', 'slab', 0, 0, 0, 46, 30, 1, 0],
+  // planta baja: muros de hormigón
+  ['walls', 'concrete', 0, 0, 1, 46, 0.8, 9.8, 1],
+  ['walls', 'concrete', 0, 0.8, 1, 0.8, 29.2, 9.8, 1],
+  ['walls', 'concrete', 0, 29.2, 1, 9, 0.8, 9.8, 1],
+  ['walls', 'concrete', 24, 0.8, 1, 0.8, 13, 9.8, 1],
+  ['walls', 'concrete', 45.2, 0.8, 1, 0.8, 8, 9.8, 1],
+  ['walls', 'concrete', 8, 10, 1, 9, 2.6, 3.4, 1],
+  // planta baja: vidrios y montantes
+  ['windows', 'glass', 9, 29.5, 1, 36, 0.25, 9.8, 1],
+  ['windows', 'glass', 45.5, 8.8, 1, 0.25, 20.6, 9.8, 1],
+  // acero: pilares bajo el voladizo
+  ['steel', 'steel', 54.4, 1.2, 1, 0.8, 0.8, 9.8, 1],
+  ['steel', 'steel', 54.4, 28.4, 1, 0.8, 0.8, 9.8, 1],
+  ['steel', 'steel', 50, 28.4, 1, 0.8, 0.8, 9.8, 1],
+  // losa del segundo piso, en voladizo
+  ['slabs', 'slab', 6, -1, 10.8, 50, 32, 1, 2],
+  // segundo piso
+  ['walls', 'concrete', 6, 0, 11.8, 50, 0.8, 8.6, 3],
+  ['walls', 'concrete', 6, 0.8, 11.8, 0.8, 28.4, 8.6, 3],
+  ['walls', 'concrete', 55.2, 0.8, 11.8, 0.8, 28.4, 8.6, 3],
+  ['walls', 'concrete', 6, 29.2, 11.8, 50, 0.8, 2.6, 3],
+  ['walls', 'concrete', 6, 29.2, 18.4, 50, 0.8, 2, 3],
+  ['windows', 'glass', 6.8, 29.45, 14.4, 48.4, 0.25, 4, 3],
+  ['windows', 'glass', 55.45, 6, 13.4, 0.25, 18, 5.6, 3],
+  // techo
+  ['roof', 'slab', 5, -1.5, 20.4, 52, 33, 0.9, 4],
+  ['roof', 'concrete', 5, -1.5, 21.3, 52, 0.5, 1.1, 4],
+  ['roof', 'concrete', 5, 31, 21.3, 52, 0.5, 1.1, 4],
+  ['roof', 'concrete', 5, -1, 21.3, 0.5, 32, 1.1, 4],
+  ['roof', 'concrete', 56.5, -1, 21.3, 0.5, 32, 1.1, 4],
+  ['roof', 'glass', 12, 8, 21.3, 9, 6, 0.6, 4],
+  ['roof', 'solar', 30, 5, 21.3, 18, 11, 0.45, 4],
 ];
-for (let i = 0; i < 8; i++) B.push(['stairs', 24, 5 + i * 2.2, 1.2 + i * 1.19, 4.5, 2.2, 1.0, 1.5]);
+// montantes de los ventanales
+for (let x = 13; x < 45; x += 4) B.push(['windows', 'dark', x, 29.4, 1, 0.35, 0.45, 9.8, 1]);
+for (let x = 12.8; x < 55; x += 6) B.push(['windows', 'dark', x, 29.4, 14.4, 0.3, 0.45, 4, 3]);
+// celosía de aluminio delante del segundo piso
+for (let x = 39; x < 55.5; x += 1.15) B.push(['steel', 'steel', x, 30.35, 11.8, 0.22, 0.9, 8.6, 3]);
+// escalera de hormigón en voladizo y descanso
+for (let i = 0; i < 9; i++) B.push(['stairs', 'concrete', 25, 1.6 + i * 1.35, 1, 5.5, 1.35, (i + 1) * 1.08, 1.5]);
+B.push(['stairs', 'concrete', 25, 13.75, 1, 5.5, 3, 9.8, 1.5]);
+
+const TREES = [[-8, 38, 13], [62, -6, 11], [-9, 6, 9], [64, 40, 8]];
+const GUIDES = [[0, 0], [46, 0], [0, 30], [56, 31], [6, -1], [56, -1]];
+const CX = 30;
+const CY = 20;
+const U = (v) => `calc(${v} * var(--u))`;
 function buildModel() {
-  const cx = 28;
-  const cy = 19;
-  const u = (v) => `calc(${v} * var(--u))`;
-  B.forEach(([g, x, y, z, w, d, h, lvl]) => {
+  const sh = document.createElement('div');
+  sh.className = 'shadow3d';
+  Object.assign(sh.style, { left: U(1 - CX), top: U(2 - CY), width: U(52), height: U(31), transform: `translateZ(${U(0.03)})` });
+  scene3d.append(sh);
+  B.forEach(([g, mat, x, y, z, w, d, h, lvl]) => {
     const box = document.createElement('div');
-    box.className = `box g-${g}`;
-    box.style.left = u(x - cx);
-    box.style.top = u(y - cy);
-    box.style.width = u(w);
-    box.style.height = u(d);
+    box.className = `box g-${g} m-${mat}`;
+    Object.assign(box.style, { left: U(x - CX), top: U(y - CY), width: U(w), height: U(d) });
     box.style.transform = `translateZ(calc((${z} + ${lvl} * var(--ex) * 4.2) * var(--u)))`;
     const face = (cls, fw, fh, tf) => {
       const f = document.createElement('i');
       f.className = `f ${cls}`;
-      f.style.width = u(fw);
-      f.style.height = u(fh);
+      f.style.width = U(fw);
+      f.style.height = U(fh);
       f.style.transform = tf;
       box.append(f);
     };
-    face('f-top', w, d, `translateZ(${u(h)})`);
+    face('f-top', w, d, `translateZ(${U(h)})`);
     face('f-n', w, h, 'rotateX(90deg)');
-    face('f-s', w, h, `translateY(${u(d)}) rotateX(90deg)`);
+    face('f-s', w, h, `translateY(${U(d)}) rotateX(90deg)`);
     face('f-w', h, d, 'rotateY(-90deg)');
-    face('f-e', h, d, `translateX(${u(w)}) rotateY(-90deg)`);
+    face('f-e', h, d, `translateX(${U(w)}) rotateY(-90deg)`);
     scene3d.append(box);
+  });
+  TREES.forEach(([x, y, size]) => {
+    const trunk = document.createElement('div');
+    trunk.className = 'box g-ground m-dark';
+    Object.assign(trunk.style, { left: U(x - 0.4 - CX), top: U(y - 0.4 - CY), width: U(0.8), height: U(0.8), transform: 'translateZ(0px)' });
+    ['f-n', 'f-w'].forEach((c) => {
+      const f = document.createElement('i');
+      f.className = `f ${c}`;
+      f.style.width = U(c === 'f-n' ? 0.8 : 9);
+      f.style.height = U(c === 'f-n' ? 9 : 0.8);
+      f.style.transform = c === 'f-n' ? `translateY(${U(0.4)}) rotateX(90deg)` : `translateX(${U(0.4)}) rotateY(-90deg)`;
+      trunk.append(f);
+    });
+    scene3d.append(trunk);
+    [[size, 7.5, 'disc-a'], [size * 0.72, 10.5, 'disc-b'], [size * 0.4, 12.8, 'disc-b']].forEach(([sz, z, cls]) => {
+      const d = document.createElement('div');
+      d.className = `disc ${cls} g-ground`;
+      Object.assign(d.style, { left: U(x - sz / 2 - CX), top: U(y - sz / 2 - CY), width: U(sz), height: U(sz), transform: `translateZ(${U(z)})` });
+      scene3d.append(d);
+    });
+  });
+  GUIDES.forEach(([x, y]) => {
+    const g = document.createElement('div');
+    g.className = 'guide';
+    Object.assign(g.style, { left: U(x - CX), top: U(y - CY), height: U(40), transform: 'rotateX(90deg)' });
+    scene3d.append(g);
   });
 }
 buildModel();
+const guides = $$('.guide', scene3d);
+const boxes = $$('.box', scene3d);
+const SPECS = [
+  [['Sistema', 'Hormigón, acero y vidrio'], ['Superficie', '286 m² en dos pisos'], ['Terreno', '720 m²']],
+  [['Material', 'Hormigón armado visto'], ['Espesor', '20 cm'], ['Terminación', 'Moldaje de tabla de pino']],
+  [['Material', 'Losa postensada'], ['Espesor', '15 cm'], ['Voladizo', '6 m sobre la terraza']],
+  [['Sistema', 'Cubierta invertida'], ['Aislación', '10 cm de poliestireno'], ['Energía', 'Paneles solares de 4,2 kWp']],
+  [['Pilares', 'Perfil HEB 150'], ['Celosía', 'Aluminio anodizado negro'], ['Protección', 'Pintura intumescente']],
+  [['Peldaños', '9 de hormigón en voladizo'], ['Contrahuella', '18 cm'], ['Baranda', 'Vidrio templado de 10 mm']],
+  [['Vidrio', 'Termopanel 6/12/6 low-e'], ['Marco', 'Aluminio negro con RPT'], ['Puertas', 'Correderas de 3 m']],
+];
 const structEl = $('[data-scene="struct"]');
 const stepsData = $$('[data-steps] li').map((li) => ({ focus: li.dataset.focus, name: $('.st-name', li).textContent, sub: $('.st-sub', li).textContent }));
 const stName = $('[data-st-name]');
 const stSub = $('[data-st-sub]');
 const stNum = $('[data-st-num]');
 const stBar = $('[data-st-bar]');
-const stDots = $$('[data-st-dots] li');
+const stLegend = $$('[data-st-legend] li');
+const stSpec = $('[data-st-spec]');
 const stLabel = $('.st-label');
 let stIdx = -1;
 function struct() {
@@ -277,17 +308,21 @@ function struct() {
     stIdx = k;
     const s = stepsData[k];
     scene3d.dataset.focus = s.focus;
+    scene3d.classList.toggle('ghost', s.focus !== 'all');
+    boxes.forEach((bx) => bx.classList.toggle('on', bx.classList.contains('g-' + s.focus)));
     stName.textContent = s.name;
     stSub.textContent = s.sub;
     stNum.textContent = String(k + 1).padStart(2, '0');
-    stDots.forEach((d, i) => d.classList.toggle('is-on', i === k));
-    [stLabel, stNum].forEach((el) => { el.classList.remove('st-swap'); void el.offsetWidth; el.classList.add('st-swap'); });
+    stLegend.forEach((d, i) => d.classList.toggle('is-on', i === k));
+    stSpec.innerHTML = SPECS[k].map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('');
+    [stLabel, stNum, stSpec].forEach((el) => { el.classList.remove('st-swap'); void el.offsetWidth; el.classList.add('st-swap'); });
   }
   const ex = inOut(seg(p, 0.1, 0.2)) * (1 - inOut(seg(p, 0.93, 1)));
   scene3d.style.setProperty('--ex', ex.toFixed(4));
-  const rz = mix(-40, -18, p);
-  const rx = mix(56, 62, inOut(seg(p, 0, 0.5)));
-  const sc = isPhone() ? 1.5 : 1;
+  guides.forEach((g) => set(g, 'opacity', (ex * 0.85).toFixed(3)));
+  const rz = mix(-42, -16, p);
+  const rx = mix(54, 62, inOut(seg(p, 0, 0.5)));
+  const sc = isPhone() ? 1.45 : 1;
   set(scene3d, 'transform', `rotateX(${rx.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg) scale(${sc})`);
   set(stBar, 'transform', `scaleX(${p.toFixed(4)})`);
 }
@@ -376,11 +411,6 @@ function header() {
     const r = el.getBoundingClientRect();
     if (r.top <= 38 && r.bottom > 38) { tone = el.dataset.tone; break; }
   }
-  if (cloudEl.getBoundingClientRect().top <= 38 && cloudEl.getBoundingClientRect().bottom > 38) {
-    const p = pinP(cloudEl).p;
-    tone = p > 0.42 && p < 0.99 ? 'dark' : 'light';
-  }
-  if (growEl.getBoundingClientRect().top <= 38 && growEl.getBoundingClientRect().bottom > 38) tone = pinP(growEl).p > 0.62 ? 'dark' : 'light';
   if (smallEl.getBoundingClientRect().top <= 38 && smallEl.getBoundingClientRect().bottom > 38) tone = pinP(smallEl).p > 0.62 ? 'dark' : 'light';
   hdr.classList.toggle('on-dark', tone === 'dark');
 }
@@ -395,31 +425,32 @@ function frame(t) {
 function onResize() {
   vw = innerWidth;
   vh = innerHeight;
-  if (!RM) {
-    sizeCanvas();
-    loadFrames();
-    measureCloud();
-  }
+  if (!RM) measureCloud();
 }
 addEventListener('resize', onResize);
 
 /* ---------- Carga ---------- */
 const loaderCount = $('[data-loader-count]');
 if (!RM) {
-  sizeCanvas();
   let shown = false;
   const reveal = () => {
     if (shown) return;
     shown = true;
-    lastDrawn = -1;
     root.classList.remove('loading');
     lenis && lenis.start();
   };
   lenis && lenis.stop();
-  loadFrames((f) => {
-    if (loaderCount) loaderCount.textContent = Math.round(Math.min(1, f / 0.5) * 100);
-    if (f >= 0.5) setTimeout(reveal, 250);
-  });
+  let ready = false;
+  Promise.all([shots[0].img.decode().catch(() => {}), document.fonts ? document.fonts.ready : null]).then(() => { ready = true; });
+  const t0 = performance.now();
+  (function count() {
+    if (shown) return;
+    const k = Math.min(1, (performance.now() - t0) / 1300);
+    const v = ready ? k : Math.min(k, 0.9);
+    if (loaderCount) loaderCount.textContent = Math.round(v * 100);
+    if (v >= 1) { setTimeout(reveal, 160); return; }
+    requestAnimationFrame(count);
+  })();
   setTimeout(reveal, 6000);
   measureCloud();
 } else {
