@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LOSA · Casas de hormigón y acero en Santiago</title>
+  <meta name="description" content="LOSA diseña, construye y vende casas contemporáneas de hormigón y acero en Santiago. Residencias en Los Dominicos y Pirque, y departamentos en Providencia." />
+  <meta name="theme-color" content="#21262B" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" as="image" href="/frames/d/000.webp" type="image/webp" />
+  <script>
+    document.documentElement.classList.add('js');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('rm');
+    else {
+      document.documentElement.classList.add('loading');
+      setTimeout(function () { document.documentElement.classList.remove('loading'); }, 8000);
+    }
+  </script>
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <a class="skip" href="#principal">Saltar al contenido</a>
+
+  <div class="loader" data-loader aria-hidden="true">
+    <span class="loader-mark">LOSA</span>
+    <span class="loader-count" data-loader-count>0</span>
+  </div>
+
+  <header class="hdr" data-hdr>
+    <a class="logo" href="#inicio" aria-label="LOSA, volver al inicio">LOSA <span>/ casas</span></a>
+    <nav class="hdr-nav" aria-label="Principal">
+      <a href="#residencias">Residencias</a>
+      <a href="#estructura">Estructura</a>
+      <a href="#departamentos">Departamentos</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="hdr-r">
+      <button class="btn-line hide-sm" type="button" data-visita>Agenda una visita</button>
+      <button class="menu-btn" type="button" data-menu-open aria-controls="menu" aria-expanded="false">Menú <span aria-hidden="true">+</span></button>
+    </div>
+  </header>
+
+  <main id="principal">
+    <!-- HÉROE: video que avanza con el scroll -->
+    <section class="hero pin" id="inicio" data-scene="hero" data-tone="dark" style="--len: 430vh">
+      <div class="stage">
+        <canvas class="hero-canvas" data-hero-canvas aria-hidden="true"></canvas>
+        <img class="hero-poster" src="/frames/d/000.webp" alt="" aria-hidden="true" data-hero-poster />
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-lines">
+          <h1 class="hero-line is-on" data-hero-line>Casas que definen cómo vives.</h1>
+          <p class="hero-line" data-hero-line>Hechas de hormigón, luz y silencio.</p>
+          <p class="hero-line" data-hero-line>Una dirección que se valoriza.</p>
+        </div>
+        <p class="hero-sub">LOSA diseña, construye y vende casas de hormigón y acero en Santiago.</p>
+        <div class="hero-scroll" aria-hidden="true"><span>Scroll</span><i></i></div>
+      </div>
+    </section>
+
+    <!-- NUBE DE FOTOS -->
+    <section class="cloud pin" id="forma" data-scene="cloud" data-tone="light" style="--len: 330vh" aria-labelledby="cloud-t">
+      <div class="stage">
+        <h2 class="cloud-t serif" id="cloud-t" data-cloud-title>Una forma más<br />tranquila de vivir</h2>
+        <figure class="cloud-pic c1"><img src="/img/living-800.webp" alt="Living de doble altura con escalera de madera y ventanales" loading="lazy" /></figure>
+        <figure class="cloud-pic c2"><img src="/img/stair-800.webp" alt="Escalera de acero y vidrio frente a la piscina" loading="lazy" /></figure>
+        <figure class="cloud-pic c3"><img src="/img/r02-800.webp" alt="Fachada de madera y hormigón con portón negro" loading="lazy" /></figure>
+        <figure class="cloud-pic c4"><img src="/img/wood-800.webp" alt="Living con muro de madera y piso de porcelanato" loading="lazy" /></figure>
+        <figure class="cloud-pic c5"><img src="/img/dark-800.webp" alt="Sala de estar de doble altura al atardecer" loading="lazy" /></figure>
+        <figure class="cloud-pic c6"><img src="/img/ext-a-800.webp" alt="Casa de volúmenes blancos con revestimiento de madera" loading="lazy" /></figure>
+        <figure class="cloud-pic c7"><img src="/img/cocina-800.webp" alt="Cocina blanca con isla de mármol" loading="lazy" /></figure>
+        <div class="cloud-main" data-cloud-main>
+          <div class="slides" data-slides>
+            <img class="slide is-on" src="/img/r01-1800.webp" alt="Residencia 01 en Los Dominicos: volúmenes oscuros de hormigón y madera bajo un árbol antiguo" loading="lazy" />
+            <img class="slide" src="/img/r02b-1800.webp" alt="Casa contemporánea de techos inclinados en blanco y negro" loading="lazy" />
+            <img class="slide" src="/img/ext-b-1800.webp" alt="Casa blanca de dos pisos con piscina" loading="lazy" />
+            <img class="slide" src="/img/r02-1800.webp" alt="Residencia 02 en Pirque: madera, hormigón y un patio de grava" loading="lazy" />
+          </div>
+          <div class="slide-ui" data-slide-ui>
+            <button class="round" type="button" data-slide-prev aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg></button>
+            <button class="round" type="button" data-slide-next aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></button>
+          </div>
+          <p class="slide-cap" data-slide-cap aria-live="polite">Residencia 01 · Los Dominicos</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DECLARACIÓN -->
+    <section class="manifest" id="nosotros" data-tone="light" aria-labelledby="manifest-t">
+      <div class="wrap">
+        <h2 class="sr" id="manifest-t">Quiénes somos</h2>
+        <p class="manifest-big" data-words>
+          <span class="inline-pic" aria-hidden="true"><img src="/img/hall-800.webp" alt="" loading="lazy" /></span>
+          Construimos casas donde el hormigón, la luz y el acero se ordenan para una forma más tranquila de vivir.
+        </p>
+        <div class="manifest-foot">
+          <p>LOSA es una desarrolladora residencial de Santiago. Diseñamos, construimos y vendemos pocas casas al año, con la estructura a la vista, materiales que envejecen bien y la luz pensada desde el primer plano.</p>
+          <dl class="facts">
+            <div><dt>Casas entregadas</dt><dd>14</dd></div>
+            <div><dt>Desde</dt><dd>2015</dd></div>
+            <div><dt>En venta hoy</dt><dd>2 casas y 12 departamentos</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUESINA Y FOTO QUE CRECE -->
+    <section class="grow pin" data-scene="grow" data-tone="light" style="--len: 260vh" aria-label="Residencia 01">
+      <div class="stage">
+        <div class="marq" aria-hidden="true" data-marq>
+          <span>LOSA / CASAS&nbsp;&nbsp;LOSA / CASAS&nbsp;&nbsp;LOSA / CASAS&nbsp;&nbsp;LOSA / CASAS&nbsp;&nbsp;</span>
+        </div>
+        <div class="grow-pic" data-grow-pic>
+          <img src="/img/r01-1800.webp" alt="Residencia 01 al atardecer, con el living iluminado bajo el árbol del jardín" loading="lazy" />
+          <p class="grow-cap" data-grow-cap>Residencia 01 · Los Dominicos, Las Condes</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTRUCTURA 3D -->
+    <section class="struct pin" id="estructura" data-scene="struct" data-tone="dark" style="--len: 820vh" aria-labelledby="struct-t">
+      <div class="stage">
+        <h2 class="sr" id="struct-t">Cómo se construye la Residencia 01</h2>
+        <div class="model" aria-hidden="true">
+          <div class="scene" data-scene3d></div>
+        </div>
+        <ol class="steps" data-steps>
+          <li data-focus="all"><span class="st-name">Vista completa</span><span class="st-sub">Residencia 01: 286 m² en dos pisos</span></li>
+          <li data-focus="walls"><span class="st-name">Muros</span><span class="st-sub">Hormigón armado de 20 cm, a la vista por dentro y por fuera</span></li>
+          <li data-focus="slabs"><span class="st-name">Losas</span><span class="st-sub">Losas de 15 cm con piso de porcelanato gris</span></li>
+          <li data-focus="roof"><span class="st-name">Techo</span><span class="st-sub">Cubierta invertida con 10 cm de aislación térmica</span></li>
+          <li data-focus="pillars"><span class="st-name">Pilares</span><span class="st-sub">Perfiles de acero de 150 mm en la galería</span></li>
+          <li data-focus="stairs"><span class="st-name">Escalera</span><span class="st-sub">Peldaños de hormigón en voladizo</span></li>
+          <li data-focus="windows"><span class="st-name">Ventanas y puertas</span><span class="st-sub">Termopanel con marco de aluminio negro</span></li>
+        </ol>
+        <div class="st-hud" aria-hidden="true">
+          <div class="st-label"><span class="st-name" data-st-name>Vista completa</span><span class="st-sub" data-st-sub>Residencia 01: 286 m² en dos pisos</span></div>
+          <span class="st-num" data-st-num>01</span>
+          <div class="st-bar"><i data-st-bar></i></div>
+          <ul class="st-dots" data-st-dots><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESIDENCIAS: TARJETAS QUE SE APILAN -->
+    <section class="cards" id="residencias" data-tone="light" aria-labelledby="cards-t">
+      <h2 class="sr" id="cards-t">Residencias en venta</h2>
+      <article class="card card-dark" data-card>
+        <div class="card-text">
+          <h3 class="card-t">Un estudio de forma, luz y proporción.</h3>
+          <div class="card-info">
+            <p class="card-name">Residencia 01 · Los Dominicos, Las Condes</p>
+            <dl class="card-dl">
+              <div><dt>Superficie</dt><dd>286 m² útiles</dd></div>
+              <div><dt>Terreno</dt><dd>720 m²</dd></div>
+              <div><dt>Programa</dt><dd>4 dormitorios · 4 baños</dd></div>
+              <div><dt>Precio</dt><dd>UF 31.900</dd></div>
+              <div><dt>Entrega</dt><dd>Inmediata</dd></div>
+            </dl>
+            <button class="btn-solid" type="button" data-visita="Residencia 01">Agendar visita</button>
+          </div>
+        </div>
+        <div class="card-pic"><img src="/img/r01b-1800.webp" alt="Fachada nocturna de la Residencia 01, con revestimiento negro y luz cálida en el acceso" loading="lazy" /></div>
+      </article>
+      <article class="card card-light" data-card>
+        <div class="card-pic"><img src="/img/warm-1800.webp" alt="Living de la Residencia 02 con ventanales altos y sillones de cuero" loading="lazy" /></div>
+        <div class="card-text">
+          <h3 class="card-t">Ambientes que guardan la luz de la tarde.</h3>
+          <div class="card-info">
+            <p class="card-name">Residencia 02 · Pirque</p>
+            <dl class="card-dl">
+              <div><dt>Superficie</dt><dd>214 m² en un piso</dd></div>
+              <div><dt>Terreno</dt><dd>5.000 m²</dd></div>
+              <div><dt>Programa</dt><dd>3 dormitorios · 3 baños</dd></div>
+              <div><dt>Precio</dt><dd>UF 18.400</dd></div>
+              <div><dt>Entrega</dt><dd>Marzo de 2027</dd></div>
+            </dl>
+            <button class="btn-solid" type="button" data-visita="Residencia 02">Agendar visita</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- FOTO PEQUEÑA QUE SE ABRE -->
+    <section class="small pin" id="departamentos" data-scene="small" data-tone="light" style="--len: 280vh" aria-labelledby="small-t">
+      <div class="stage">
+        <h2 class="small-t serif" id="small-t" data-small-title>No todo espacio<br />necesita ser grande.</h2>
+        <div class="small-pic" data-small-pic>
+          <img src="/img/gris-1800.webp" alt="Living de departamento en tonos grises con estantería negra" loading="lazy" />
+          <div class="small-over" data-small-over>
+            <p class="serif">Otra forma de habitar.</p>
+            <p>Departamentos LOSA Providencia: 12 unidades de 48 a 96 m², desde UF 5.200.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECORRIDO DEL DEPARTAMENTO PILOTO -->
+    <section class="tour pin" id="piloto" data-scene="tour" data-tone="light" style="--len: 520vh" aria-labelledby="tour-t">
+      <div class="stage">
+        <h2 class="sr" id="tour-t">Recorre el departamento piloto</h2>
+        <div class="tour-main">
+          <img class="tour-img is-on" src="/img/living-1800.webp" alt="Living comedor con escalera y ventanales" loading="lazy" />
+          <img class="tour-img" src="/img/cocina-1800.webp" alt="Cocina blanca con isla de mármol y taburetes de madera" loading="lazy" />
+          <img class="tour-img" src="/img/dorm-1800.webp" alt="Dormitorio principal con ventanal de piso a techo" loading="lazy" />
+          <img class="tour-img" src="/img/bano-1800.webp" alt="Baño en tonos grafito con tina exenta" loading="lazy" />
+        </div>
+        <figure class="tour-thumb th1" data-tour-thumb><img src="/img/stair-800.webp" alt="" loading="lazy" /></figure>
+        <figure class="tour-thumb th2" data-tour-thumb><img src="/img/dorm2-800.webp" alt="" loading="lazy" /></figure>
+        <figure class="tour-thumb th3" data-tour-thumb><img src="/img/wood-800.webp" alt="" loading="lazy" /></figure>
+        <ol class="tour-texts">
+          <li class="tour-text is-on"><h3 class="tour-h">Todo a mano.</h3><p>Living comedor de 32 m² con cocina abierta y salida a la terraza. Todo queda a menos de diez pasos.</p><p class="tour-meta">Living · cocina · terraza</p></li>
+          <li class="tour-text"><h3 class="tour-h">Una cocina que se queda abierta.</h3><p>Isla de cuarzo de 2,4 m, horno empotrado y una despensa detrás de la puerta corredera.</p><p class="tour-meta">Cocina · despensa</p></li>
+          <li class="tour-text"><h3 class="tour-h">Mañanas lentas, con luz suave.</h3><p>Dormitorio principal hacia el oriente, con ventanal de piso a techo y cortinas dobles.</p><p class="tour-meta">Dormitorio · vestidor</p></li>
+          <li class="tour-text"><h3 class="tour-h">Un baño en grafito.</h3><p>Porcelanato de 120 × 60 cm, tina exenta y ventana alta para ventilar sin perder privacidad.</p><p class="tour-meta">Baño principal</p></li>
+        </ol>
+        <p class="tour-count"><span>Departamento piloto · 72 m²</span><span data-tour-count>01 / 04</span></p>
+      </div>
+    </section>
+
+    <!-- PASA ADELANTE -->
+    <section class="inside" id="visita" data-tone="dark" aria-labelledby="inside-t">
+      <div class="inside-pic" data-inside>
+        <img src="/img/ext-c-1800.webp" alt="Casa blanca frente al mar con terrazas escalonadas y jardín" loading="lazy" data-inside-img />
+        <div class="inside-over">
+          <h2 class="inside-t" id="inside-t">Pasa adelante.</h2>
+          <div class="inside-side">
+            <p>Recorre las residencias con nosotros. Hacemos visitas de lunes a sábado, con cita, y te mostramos planos, terminaciones y costos de mantención.</p>
+            <button class="btn-light" type="button" data-visita>Agenda una visita <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot" id="contacto" data-tone="light">
+    <div class="foot-card">
+      <div class="foot-top"><span class="logo">LOSA <span>/ casas</span></span><span>Espacio, pensado.</span></div>
+      <div class="foot-mid">
+        <div class="foot-claim">
+          <p class="foot-big serif">Espacio,<br />pensado.</p>
+          <p>Casas de hormigón, luz y acero en Santiago.</p>
+        </div>
+        <div class="foot-cols">
+          <div>
+            <h2 class="foot-h">Explorar</h2>
+            <a href="#residencias">Residencia 01</a>
+            <a href="#residencias">Residencia 02</a>
+            <a href="#departamentos">Departamentos</a>
+            <a href="#estructura">Estructura</a>
+          </div>
+          <div>
+            <h2 class="foot-h">Sala de ventas</h2>
+            <p>Av. Las Condes 12.461, local 3, Las Condes</p>
+            <p>Lunes a sábado, 10:00 a 19:00</p>
+            <p>+56 2 2938 4410</p>
+            <p>ventas@losacasas.cl</p>
+          </div>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <p>© 2026 LOSA. Sitio de demostración: la empresa, las propiedades, los precios y los datos de contacto son ficticios.</p>
+        <a href="#inicio">Volver arriba ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <dialog class="menu" id="menu" data-menu aria-label="Menú">
+    <div class="menu-top">
+      <span class="logo">LOSA <span>/ casas</span></span>
+      <button class="menu-btn" type="button" data-menu-close>Cerrar <span aria-hidden="true">×</span></button>
+    </div>
+    <nav class="menu-nav" aria-label="Menú principal">
+      <a href="#forma">Inicio</a>
+      <a href="#residencias">Residencias</a>
+      <a href="#estructura">Estructura</a>
+      <a href="#departamentos">Departamentos</a>
+      <a href="#piloto">Piloto</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="btn-solid" type="button" data-visita>Agenda una visita</button>
+  </dialog>
+
+  <dialog class="modal" id="visita-modal" data-modal aria-labelledby="modal-t">
+    <form class="modal-form" method="dialog" data-form novalidate>
+      <button class="modal-x" type="button" data-modal-close aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+      <div class="modal-body" data-modal-body>
+        <h2 class="modal-t serif" id="modal-t">Agenda una visita</h2>
+        <label class="mf">Nombre<input name="nombre" autocomplete="name" required /></label>
+        <label class="mf">Teléfono<input name="telefono" type="tel" autocomplete="tel" inputmode="tel" required /></label>
+        <label class="mf">Correo<input name="correo" type="email" autocomplete="email" /></label>
+        <label class="mf">Me interesa
+          <select name="interes" data-interes>
+            <option>Residencia 01</option>
+            <option>Residencia 02</option>
+            <option>Departamentos Providencia</option>
+            <option>Todavía no sé</option>
+          </select>
+        </label>
+        <button class="btn-solid" type="submit">Enviar</button>
+        <p class="modal-note">Demo: este formulario no envía datos.</p>
+      </div>
+      <div class="modal-done" data-modal-done hidden>
+        <h2 class="modal-t serif" tabindex="-1">Gracias.</h2>
+        <p>Te escribimos hoy para coordinar la visita.</p>
+        <button class="btn-solid" type="button" data-modal-close>Cerrar</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
