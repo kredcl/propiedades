@@ -57,7 +57,7 @@ function loadFrames(onProgress) {
         if (done === N) resolve();
         if (i === wantFrame) lastDrawn = -1;
       };
-      img.src = `/frames/${which}/${String(i).padStart(3, '0')}.webp`;
+      img.src = `frames/${which}/${String(i).padStart(3, '0')}.webp`;
     });
   });
 }
